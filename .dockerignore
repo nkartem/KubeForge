@@ -1,0 +1,59 @@
+# Git
+.git
+.gitignore
+
+# Build artifacts
+bin/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+
+# SSH keys
+*.pem
+*.key
+id_rsa*
+
+# Kubeconfig
+kubeconfig
+*.kubeconfig
+
+# Documentation
+*.md
+!README.md
+
+# CI/CD
+.github/
+
+# Test coverage
+coverage.out
+coverage.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Makefile (not needed in image)
+Makefile
+
+# Dockerfile itself
+Dockerfile
+.dockerignore

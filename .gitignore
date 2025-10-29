@@ -1,0 +1,55 @@
+# Binaries
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# SSH keys (never commit!)
+*.pem
+*.key
+id_rsa*
+
+# Kubeconfig files
+kubeconfig
+*.kubeconfig
+
+# Build artifacts
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
