@@ -1,0 +1,54 @@
+{
+  "name": "production-cluster",
+  "k8s_version": "1.28.0",
+  "pod_network_cidr": "10.244.0.0/16",
+  "service_cidr": "10.96.0.0/12",
+  "cni": "calico",
+  "container_runtime": "containerd",
+  "control_planes": [
+    {
+      "hostname": "k8s-cp-01",
+      "address": "192.168.1.10",
+      "user": "ubuntu",
+      "ssh_key_path": "/home/user/.ssh/id_rsa",
+      "port": 22
+    },
+    {
+      "hostname": "k8s-cp-02",
+      "address": "192.168.1.11",
+      "user": "ubuntu",
+      "ssh_key_path": "/home/user/.ssh/id_rsa",
+      "port": 22
+    },
+    {
+      "hostname": "k8s-cp-03",
+      "address": "192.168.1.12",
+      "user": "ubuntu",
+      "ssh_key_path": "/home/user/.ssh/id_rsa",
+      "port": 22
+    }
+  ],
+  "workers": [
+    {
+      "hostname": "k8s-worker-01",
+      "address": "192.168.1.20",
+      "user": "ubuntu",
+      "ssh_key_path": "/home/user/.ssh/id_rsa",
+      "port": 22
+    },
+    {
+      "hostname": "k8s-worker-02",
+      "address": "192.168.1.21",
+      "user": "ubuntu",
+      "ssh_key_path": "/home/user/.ssh/id_rsa",
+      "port": 22
+    },
+    {
+      "hostname": "k8s-worker-03",
+      "address": "192.168.1.22",
+      "user": "ubuntu",
+      "ssh_key_path": "/home/user/.ssh/id_rsa",
+      "port": 22
+    }
+  ]
+}
