@@ -30,6 +30,10 @@ func main() {
 	}
 	defer db.Close()
 
+	// Start WebSocket hub
+	go api.Hub.Run()
+	log.Println("WebSocket hub started")
+
 	// Create router
 	router := mux.NewRouter()
 
@@ -45,6 +49,9 @@ func main() {
 			"version": "1.0.0",
 		})
 	}).Methods("GET")
+
+	// WebSocket endpoint
+	router.HandleFunc("/ws/clusters/{id}/events", api.HandleWebSocket)
 
 	// API routes
 	clusterHandler := api.NewClusterHandler()

@@ -1,10 +1,11 @@
-.PHONY: build run test clean docker-build docker-push install deps
+.PHONY: build run test clean docker-build docker-push install deps frontend frontend-dev frontend-build
 
 APP_NAME=kubeforge
 VERSION?=0.1.0
 BUILD_DIR=bin
 DOCKER_REGISTRY?=localhost:5000
 DOCKER_IMAGE=$(DOCKER_REGISTRY)/$(APP_NAME)
+FRONTEND_DIR=web/frontend
 
 # Go parameters
 GOCMD=go
@@ -26,7 +27,22 @@ deps:
 	$(GOMOD) download
 	$(GOMOD) tidy
 
-# Build the application
+# Install frontend dependencies
+frontend-deps:
+	@echo "Installing frontend dependencies..."
+	cd $(FRONTEND_DIR) && npm install
+
+# Build frontend
+frontend-build: frontend-deps
+	@echo "Building frontend..."
+	cd $(FRONTEND_DIR) && npm run build
+
+# Run frontend in dev mode
+frontend-dev:
+	@echo "Starting frontend dev server..."
+	cd $(FRONTEND_DIR) && npm run dev
+
+# Build the application (backend only)
 build: deps
 	@echo "Building $(APP_NAME)..."
 	@mkdir -p $(BUILD_DIR)
@@ -105,14 +121,22 @@ docs:
 
 help:
 	@echo "KubeForge Makefile Commands:"
-	@echo "  make build           - Build the application"
+	@echo ""
+	@echo "Backend:"
+	@echo "  make build           - Build the backend application"
 	@echo "  make build-linux     - Build for Linux"
-	@echo "  make run             - Run the application"
+	@echo "  make run             - Run the backend application"
 	@echo "  make test            - Run tests"
 	@echo "  make test-coverage   - Run tests with coverage report"
 	@echo "  make fmt             - Format code"
 	@echo "  make lint            - Lint code"
-	@echo "  make clean           - Clean build artifacts"
+	@echo ""
+	@echo "Frontend:"
+	@echo "  make frontend-deps   - Install frontend dependencies"
+	@echo "  make frontend-build  - Build frontend for production"
+	@echo "  make frontend-dev    - Run frontend dev server"
+	@echo ""
+	@echo "Docker:"
 	@echo "  make docker-build    - Build Docker image"
 	@echo "  make docker-push     - Push Docker image"
 	@echo "  make docker-run      - Run Docker container"

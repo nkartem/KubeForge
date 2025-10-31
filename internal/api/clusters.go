@@ -369,6 +369,9 @@ func (h *ClusterHandler) logEvent(clusterID uint, level, host, step, message str
 		CreatedAt: time.Now(),
 	}
 	db.DB.Create(&event)
+
+	// Broadcast event to WebSocket clients
+	Hub.BroadcastEvent(clusterID, event)
 }
 
 func (h *ClusterHandler) logError(clusterID uint, message string, err error) {
