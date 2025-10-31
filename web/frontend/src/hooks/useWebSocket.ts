@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { ProvisionEvent } from '../api/client';
+import type { ProvisionEvent } from '../api/client';
 
 const WS_BASE_URL = import.meta.env.VITE_WS_URL || 'ws://localhost:8080';
 

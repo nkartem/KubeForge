@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { clustersApi, Cluster } from '../api/client';
+import { clustersApi, type Cluster } from '../api/client';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 
 export const Dashboard = () => {
   const { data, isLoading, error, refetch } = useQuery({

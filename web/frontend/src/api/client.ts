@@ -64,6 +64,7 @@ export interface HostSpec {
   user: string;
   ssh_key_path: string;
   port: number;
+  os?: string;
 }
 
 // API functions

@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { clustersApi, CreateClusterRequest, HostSpec } from '../api/client';
+import { clustersApi, type CreateClusterRequest, type HostSpec } from '../api/client';
 
 export const ClusterForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<CreateClusterRequest>({
     name: '',
-    k8s_version: '1.28.0',
+    k8s_version: '1.34.1',
     cni: 'calico',
     container_runtime: 'containerd',
     pod_network_cidr: '10.244.0.0/16',
     service_cidr: '10.96.0.0/12',
-    control_planes: [{ hostname: '', address: '', user: 'ubuntu', ssh_key_path: '', port: 22 }],
+    control_planes: [{ hostname: '', address: '', user: '', ssh_key_path: '', port: 22, os: 'ubuntu-24.04' }],
     workers: [],
   });
 
@@ -32,7 +32,7 @@ export const ClusterForm = () => {
       ...formData,
       control_planes: [
         ...formData.control_planes,
-        { hostname: '', address: '', user: 'ubuntu', ssh_key_path: '', port: 22 },
+        { hostname: '', address: '', user: '', ssh_key_path: '', port: 22, os: 'ubuntu-24.04' },
       ],
     });
   };
@@ -55,7 +55,7 @@ export const ClusterForm = () => {
       ...formData,
       workers: [
         ...formData.workers,
-        { hostname: '', address: '', user: 'ubuntu', ssh_key_path: '', port: 22 },
+        { hostname: '', address: '', user: '', ssh_key_path: '', port: 22, os: 'ubuntu-24.04' },
       ],
     });
   };
@@ -108,14 +108,15 @@ export const ClusterForm = () => {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Kubernetes Version *
               </label>
-              <input
-                type="text"
-                required
+              <select
                 value={formData.k8s_version}
                 onChange={(e) => setFormData({ ...formData, k8s_version: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="1.28.0"
-              />
+              >
+                <option value="1.34.1">1.34.1</option>
+                <option value="1.33.5">1.33.5</option>
+                <option value="1.32.9">1.32.9</option>
+              </select>
             </div>
 
             <div>
@@ -192,6 +193,19 @@ export const ClusterForm = () => {
                   onChange={(e) => updateControlPlane(index, 'address', e.target.value)}
                   className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
+                <div>
+                  <select
+                    value={cp.os || 'ubuntu-24.04'}
+                    onChange={(e) => updateControlPlane(index, 'os', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="ubuntu-24.04">Ubuntu 24.04.3 LTS</option>
+                    <option value="ubuntu-22.04">Ubuntu 22.04 LTS</option>
+                    <option value="ubuntu-20.04">Ubuntu 20.04 LTS</option>
+                    <option value="debian-12">Debian 12</option>
+                    <option value="centos-9">CentOS Stream 9</option>
+                  </select>
+                </div>
                 <input
                   type="text"
                   required
@@ -259,6 +273,19 @@ export const ClusterForm = () => {
                     onChange={(e) => updateWorker(index, 'address', e.target.value)}
                     className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
+                  <div>
+                      <select
+                      value={worker.os || 'ubuntu-24.04'}
+                      onChange={(e) => updateWorker(index, 'os', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="ubuntu-24.04">Ubuntu 24.04.3 LTS</option>
+                      <option value="ubuntu-22.04">Ubuntu 22.04 LTS</option>
+                      <option value="ubuntu-20.04">Ubuntu 20.04 LTS</option>
+                      <option value="debian-12">Debian 12</option>
+                      <option value="centos-9">CentOS Stream 9</option>
+                    </select>
+                  </div>
                   <input
                     type="text"
                     required
