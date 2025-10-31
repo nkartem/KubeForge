@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/gorilla/mux"
 	"kubeforge/internal/api"
@@ -37,10 +36,10 @@ func main() {
 	// Create router
 	router := mux.NewRouter()
 
-	// Apply middleware
+	// Apply middleware (CORS must be first!)
+	router.Use(api.CORS)
 	router.Use(api.Logger)
 	router.Use(api.Recovery)
-	router.Use(api.CORS)
 
 	// Health check endpoint
 	router.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
